@@ -2,14 +2,14 @@ import streamlit as st
 from streamlit_chat import message
 from langchain.chains import ConversationalRetrievalChain
 from langchain.document_loaders import PyPDFLoader, DirectoryLoader
-from langchain.embeddings import huggingFaceEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import CTransformers
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 
 #load the pdf
-loader=DirectoryLoader("data\fitness_data.pdf",glob="*.pdf",loader_cls=PyPDFLoader)
+loader=DirectoryLoader("data/",glob="*.pdf",loader_cls=PyPDFLoader)
 documents=loader.load()
 
 #split text into chunks
@@ -17,7 +17,7 @@ text_splitter=RecursiveCharacterTextSplitter(chunk_size=500,chunk_overlap=50)
 text_chunks=text_splitter.split_documents(documents)
 
 #create embeddings (we will use a sentence transformer from huggingface)
-embeddings=huggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
+embeddings=HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
                                  model_kwargs={'device':'cpu'})
 
 #create a vector store
