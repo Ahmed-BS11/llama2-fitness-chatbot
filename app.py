@@ -7,6 +7,8 @@ from langchain.llms import CTransformers
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+
 
 # load the pdf
 loader = DirectoryLoader("data/", glob="*.pdf", loader_cls=PyPDFLoader)
@@ -26,6 +28,8 @@ vector_store = FAISS.from_documents(text_chunks, embeddings)
 
 # create llm
 llm = CTransformers(model="llama-2-7b-chat.ggmlv3.q4_0.bin", model_type="llama",
+                    streaming=True, 
+                    callbacks=[StreamingStdOutCallbackHandler()],
                     config={'max_new_tokens': 128, 'temperature': 0.01})
 
 memory = ConversationBufferMemory(
@@ -73,7 +77,7 @@ def display_chat_history():
         with reply_container:
             for i in range(len(st.session_state['generated'])):
                 message(st.session_state['past'][i], is_user=True, key=str(i)+'_user', avatar_style="thumbs")
-                message(st.session_state['generated'][i], key=str(i), avatar_style="micah")
+                message(st.session_state['generated'][i], key=str(i), avatar_style="bottts")
 
 
 #initializing  session state
