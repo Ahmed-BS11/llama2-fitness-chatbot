@@ -24,7 +24,7 @@ embeddings=HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6
 vector_store=FAISS.from_documents(text_chunks,embeddings)
 
 #create llm
-llm=CTransformers(model="EleutherAI/llama-lm",
+llm=CTransformers(model="TheBloke/Llama-2-13B-chat-GGML",
                   model_type="llama",
                   config={'max_new_tokens':128,"temperature":0.01})
 
